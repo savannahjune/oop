@@ -9,8 +9,8 @@ GAME_BOARD = None
 DEBUG = False
 ######################
 
-GAME_WIDTH = 5
-GAME_HEIGHT = 5
+GAME_WIDTH = 10
+GAME_HEIGHT = 10
 
 #### Put class definitions here ####
 class Rock(GameElement):            # always has these CLASS attributes in the beginning
@@ -57,36 +57,31 @@ class Character(GameElement):
         # it isn't solid, let the character move, if not keep it where it is
         if direction:
             next_location = self.next_pos(direction)
+            # print next_location
 
-            if next_location:
-                next_x = next_location[0]
-                next_y = next_location[1]
+            # if 0 > next_location[0] > 9 or 0 > next_location[1] > 9:
+            if next_location[0] > 9 or next_location[0] < 0 or next_location[1] > 9 or next_location[1] < 0:
+                self.board.draw_msg("You fucked up! Go back to the beginning.")
+                self.board.del_el(self.x, self.y)
+                self.board.set_el(0, 9, self)
+            
+            
+            else:
+                if next_location:
+                    next_x = next_location[0]
+                    next_y = next_location[1]
                 
-                existing_el = self.board.get_el(next_x, next_y) 
+                    existing_el = self.board.get_el(next_x, next_y) 
 
-                if existing_el:
-                    existing_el.interact(self)
+                    if existing_el:
+                        existing_el.interact(self)
+                    
+                    if existing_el and existing_el.SOLID:
+                        self.board.draw_msg("There's something in my way!")
+                    elif existing_el is None or not existing_el.SOLID:
+                        self.board.del_el(self.x, self.y)
+                        self.board.set_el(next_x, next_y, self)
 
-                if existing_el and existing_el.SOLID:
-                    self.board.draw_msg("There's something in my way!")
-                elif existing_el is None or not existing_el.SOLID:
-                    self.board.del_el(self.x, self.y)
-                    self.board.set_el(next_x, next_y, self)
-
-
-        
-
-class Boy(GameElement):
-    IMAGE = "Boy"
-
-class Cat(GameElement):
-    IMAGE = "Cat"
-
-class Princess(GameElement):
-    IMAGE = "Princess"
-
-class Horns(GameElement):
-    IMAGE = "Horns"
 
 class Gem(GameElement):
     IMAGE = "BlueGem"
@@ -109,10 +104,10 @@ def initialize():  # this is where we put the instance attributes aka regular at
     """Put game initialization code here"""
     rock_positions = [
             (2, 1),
-            (1, 2),
-            (3, 2),
-            (2, 3),
-            (1, 1),
+            # (1, 2),
+            # (3, 2),
+            # (2, 3),
+            # (1, 1),
         ]
 
     rocks = []
@@ -131,36 +126,16 @@ def initialize():  # this is where we put the instance attributes aka regular at
     #register and instantiate PC girl
     player = Character()
     GAME_BOARD.register(player)
-    GAME_BOARD.set_el(0, 0, player)
+    GAME_BOARD.set_el(0, 9, player)
     print player
 
-    boy = Boy()
-    GAME_BOARD.register(boy)
-    GAME_BOARD.set_el(3, 0, boy)
-    print boy
+    # gem = Gem()
+    # GAME_BOARD.register(gem)
+    # GAME_BOARD.set_el(3, 1, gem)
 
-    cat = Cat()
-    GAME_BOARD.register(cat)
-    GAME_BOARD.set_el(1, 0, cat)
-    print cat
-
-    princess = Princess()
-    GAME_BOARD.register(princess)
-    GAME_BOARD.set_el(1, 3, princess)
-    print princess
-
-    horns = Horns()
-    GAME_BOARD.register(horns)
-    GAME_BOARD.set_el(3, 1, horns)
-    print horns
-
-    gem = Gem()
-    GAME_BOARD.register(gem)
-    GAME_BOARD.set_el(3, 1, gem)
-
-    greengem = Greengem()
-    GAME_BOARD.register(greengem)
-    GAME_BOARD.set_el(3, 3, greengem)
+    # greengem = Greengem()
+    # GAME_BOARD.register(greengem)
+    # GAME_BOARD.set_el(3, 3, greengem)
 
     GAME_BOARD.draw_msg("This game is wicked awesome.")
 

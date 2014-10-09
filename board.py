@@ -40,16 +40,30 @@ class Board(object):
     # Draw the game board
     def draw_board(self):
         # Make a map with a stoneblock border and filled with grass
-        game_map = []
-        inner_width = self.width-2
-        for i in range(self.height):
-            if i == 0 or i == self.height-1:
-                # On the boundaries
-                game_map.append(["Block"] * self.width)
-            else:
-                row = ["Block"] + (["GrassBlock"] * inner_width) + ["Block"]
-                game_map.append(row)
+        game_map = [
+        #Each list is a row on the game board
+        ["WaterBlock", "WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","GrassBlock","GrassBlock",],
+        ["WaterBlock", "WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","GrassBlock","GrassBlock",],
+        ["WaterBlock", "WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock"],
+        ["WaterBlock", "WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock"],
+        ["WaterBlock", "WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock"],
+        ["WaterBlock", "WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock"],
+        ["WaterBlock", "WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock"],
+        ["GrassBlock","GrassBlock","GrassBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock"],
+        ["GrassBlock","GrassBlock","GrassBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock"],
+        ["GrassBlock","GrassBlock","GrassBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock","WaterBlock"]
+        ]
+
+        # inner_width = self.width-2
+        # for i in range(self.height):
+        #     if i == 0 or i == self.height-1:
+        #         # On the boundaries
+        #         game_map.append(["WaterBlock"] * self.width)
+        #     else:
+        #         row = ["Block"] + (["WaterBlock"] * inner_width) + ["Block"]
+        #         game_map.append(row)
         
+
         self.base_board = game_map
         self.content_layer = []
         row = [ None ] * self.width
