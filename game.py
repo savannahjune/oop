@@ -18,6 +18,29 @@ class Rock(GameElement):            # always has these CLASS attributes in the b
 
 class Character(GameElement):
     IMAGE = "Girl"
+    def keyboard_handler(self, symbol, modifier):
+        if symbol == key.UP:
+            self.board.draw_msg('%s says: You pressed up!' % self.IMAGE)
+            next_y = self.y - 1
+            self.board.del_el(self.x, self.y)
+            self.board.set_el(self.x, next_y, self)
+        elif symbol == key.DOWN:
+            self.board.draw_msg("%s says: You pressed down!" % self.IMAGE)
+            next_y = self.y + 1
+            self.board.del_el(self.x, self.y)
+            self.board.set_el(self.x, next_y, self)
+        elif symbol == key.LEFT:
+            self.board.draw_msg("%s says: You pressed left!" % self.IMAGE)
+            next_x = self.x - 1
+            self.board.del_el(self.x, self.y)
+            self.board.set_el(next_x, self.y, self)
+        elif symbol == key.RIGHT:
+            self.board.draw_msg("%s says: You pressed right!" % self.IMAGE)
+            next_x = self.x + 1
+            self.board.del_el(self.x, self.y)
+            self.board.set_el(next_x, self.y, self)
+        elif symbol == key.SPACE:
+            self.board.erase_msg()
 
 class Boy(GameElement):
     IMAGE = "Boy"
@@ -56,7 +79,7 @@ def initialize():  # this is where we put the instance attributes aka regular at
     #register and instantiate PC girl
     player = Character()
     GAME_BOARD.register(player)
-    GAME_BOARD.set_el(2, 0, player)
+    GAME_BOARD.set_el(0, 0, player)
     print player
 
     boy = Boy()
@@ -78,6 +101,8 @@ def initialize():  # this is where we put the instance attributes aka regular at
     GAME_BOARD.register(horns)
     GAME_BOARD.set_el(3, 1, horns)
     print horns
+
+    GAME_BOARD.draw_msg("This game is wicked awesome.")
 
 
     pass
