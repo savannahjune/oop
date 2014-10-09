@@ -15,29 +15,71 @@ GAME_HEIGHT = 5
 #### Put class definitions here ####
 class Rock(GameElement):            # always has these CLASS attributes in the beginning
     IMAGE = "Rock"
-pass
+
+class Character(GameElement):
+    IMAGE = "Girl"
+
+class Boy(GameElement):
+    IMAGE = "Boy"
+
+class Cat(GameElement):
+    IMAGE = "Cat"
+
+class Princess(GameElement):
+    IMAGE = "Princess"
+
+class Horns(GameElement):
+    IMAGE = "Horns"
 ####   End class definitions    ####
 
 def initialize():  # this is where we put the instance attributes aka regular attributes
     """Put game initialization code here"""
-    # Initialize and register rock 1
-    rock1 = Rock()
-    GAME_BOARD.register(rock1)
-    GAME_BOARD.set_el(1, 1, rock1)
-    # Initialize and register rock 2
-    rock2 = Rock()
-    GAME_BOARD.register(rock2)      # creates the rock
-    GAME_BOARD.set_el(2, 2, rock2)  # puts the rock at a coordinate
+    rock_positions = [
+            (2, 1),
+            (1, 2),
+            (3, 2),
+            (2, 3),
+            (1, 1),
+        ]
 
-    rock3 = Rock()
-    GAME_BOARD.register(rock3)
-    GAME_BOARD.set_el(3, 3, rock3)
+    rocks = []
+
+    for pos in rock_positions:
+        rock = Rock()
+        GAME_BOARD.register(rock)
+        GAME_BOARD.set_el(pos[0], pos[1], rock)
+        rocks.append(rock)
+
+    for rock in rocks:
+        print rock
+    
+    #register and instantiate PC girl
+    player = Character()
+    GAME_BOARD.register(player)
+    GAME_BOARD.set_el(2, 0, player)
+    print player
+
+    boy = Boy()
+    GAME_BOARD.register(boy)
+    GAME_BOARD.set_el(3, 0, boy)
+    print boy
+
+    cat = Cat()
+    GAME_BOARD.register(cat)
+    GAME_BOARD.set_el(1, 0, cat)
+    print cat
+
+    princess = Princess()
+    GAME_BOARD.register(princess)
+    GAME_BOARD.set_el(1, 3, princess)
+    print princess
+
+    horns = Horns()
+    GAME_BOARD.register(horns)
+    GAME_BOARD.set_el(3, 1, horns)
+    print horns
 
 
-    print "The first rock is at", (rock1.x, rock1.y)
-    print "The second rock is at", (rock2.x, rock2.y)
-    print "The third rock is at", (rock3.x, rock3.y)
-    print "Rock 1 image", rock1.IMAGE
-    print "Rock 2 image", rock2.IMAGE
-    print "Rock 3 image", rock3.IMAGE
     pass
+
+
