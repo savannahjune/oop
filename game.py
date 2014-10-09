@@ -20,6 +20,10 @@ class Rock(GameElement):            # always has these CLASS attributes in the b
 class Character(GameElement):
     IMAGE = "Girl"
 
+    def __init__(self):
+        GameElement.__init__(self)
+        self.inventory = []
+
     def next_pos(self, direction):
         if direction == "up":
             return (self.x, self.y-1)
@@ -32,7 +36,8 @@ class Character(GameElement):
         return None
 
     def keyboard_handler(self, symbol, modifier):
-        
+
+        #Take key presses from character and move character
         direction = None
         if symbol == key.UP:
             direction = "up"
@@ -45,16 +50,31 @@ class Character(GameElement):
         # elif symbol == key.SPACE:
         #     self.board.erase_msg()
 
+        # draw message on screen indicating direction
         self.board.draw_msg("[%s] moves %s" % (self.IMAGE, direction))
 
+        # checks if there is a solid object in the next direction, if there's nothing or
+        # it isn't solid, let the character move, if not keep it where it is
         if direction:
             next_location = self.next_pos(direction)
 
             if next_location:
                 next_x = next_location[0]
                 next_y = next_location[1]
-                self.board.del_el(self.x, self.y)
-                self.board.set_el(next_x, next_y, self)
+                
+                existing_el = self.board.get_el(next_x, next_y) 
+
+                if existing_el:
+                    existing_el.interact(self)
+
+                if existing_el and existing_el.SOLID:
+                    self.board.draw_msg("There's something in my way!")
+                elif existing_el is None or not existing_el.SOLID:
+                    self.board.del_el(self.x, self.y)
+                    self.board.set_el(next_x, next_y, self)
+
+
+        
 
 class Boy(GameElement):
     IMAGE = "Boy"
@@ -67,6 +87,22 @@ class Princess(GameElement):
 
 class Horns(GameElement):
     IMAGE = "Horns"
+
+class Gem(GameElement):
+    IMAGE = "BlueGem"
+    SOLID = False
+
+    def interact(self, player):
+        player.inventory.append(self)
+        GAME_BOARD.draw_msg("You just acquired a gem! You have %d items" % (len(player.inventory)))
+
+class Greengem(Gem):
+    IMAGE  = "GreenGem"
+
+    def interact(self, player):
+        player.inventory.append(self)
+        GAME_BOARD.draw_msg("You just acquired a green, organic, local certified gem! You have %d items" % (len(player.inventory)))
+
 ####   End class definitions    ####
 
 def initialize():  # this is where we put the instance attributes aka regular attributes
@@ -86,6 +122,8 @@ def initialize():  # this is where we put the instance attributes aka regular at
         GAME_BOARD.register(rock)
         GAME_BOARD.set_el(pos[0], pos[1], rock)
         rocks.append(rock)
+
+    rocks[-1].SOLID = False
 
     for rock in rocks:
         print rock
@@ -116,9 +154,19 @@ def initialize():  # this is where we put the instance attributes aka regular at
     GAME_BOARD.set_el(3, 1, horns)
     print horns
 
+    gem = Gem()
+    GAME_BOARD.register(gem)
+    GAME_BOARD.set_el(3, 1, gem)
+
+    greengem = Greengem()
+    GAME_BOARD.register(greengem)
+    GAME_BOARD.set_el(3, 3, greengem)
+
     GAME_BOARD.draw_msg("This game is wicked awesome.")
 
 
-    pass
+
+
+    # pass
 
 
