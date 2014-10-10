@@ -47,7 +47,8 @@ def setup_images():
             "Girl": "Character Pink Girl.png",
             "Princess": "Character Princess Girl.png",
             "Popo": "Popo.png",
-            "Sealwhale": "Orca.png"
+            "Sealwhale": "Sealwhale.png",
+            "Iphone": "Iphone.png"
             }
 
     for k,v in filenames.items():
