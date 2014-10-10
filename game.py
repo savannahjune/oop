@@ -58,9 +58,6 @@ class Character(GameElement):
         # draw message on screen indicating direction
         self.board.draw_msg("%s moves %s" % (self.IMAGE, direction))
 
-        
-
-            # GAME_BOARD.set_el(4, 5, popo)
         # checks if there is a solid object in the next direction, if there's nothing or
         # it isn't solid, let the character move, if not keep it where it is
 
@@ -78,49 +75,45 @@ class Character(GameElement):
             else:
                 next_x = next_location[0]
                 next_y = next_location[1]
-            
+                
+                if next_x > 2 or next_y <7:
+                    popo = Popo()
+                    GAME_BOARD.register(popo)
+                    GAME_BOARD.set_el(4, 5, popo)
+
+                # use coordinates to get object if it's in next location            
                 existing_el = self.board.get_el(next_x, next_y) 
 
+                # if there is something in next location, call interact for that object
                 if existing_el:
                     existing_el.interact(self)
                 
+                # this checks if you are allowed to move there, can't if the object is solid
                 if existing_el and existing_el.SOLID and not Rock:
                     self.board.draw_msg("There's something in my way!")
                 elif existing_el is None or not existing_el.SOLID:
                     self.board.del_el(self.x, self.y)
                     self.board.set_el(next_x, next_y, self)
 
+        # def interact(self, )
+
 class Popo(GameElement):
     IMAGE = "Popo"
     # VISIBLE = False
 
-    # direction = 1
-
-    def interact(self, player):
-        # Popo.VISIBLE == False and 
-        if player.next_location[0] > 2 or player.next_location[1] < 7:
-            GAME_BOARD.set_el(5, 4, popo)
-            print "Hello"
+    direction = 1
 
 
-            # if Popo.VISIBLE == False and next_location[0] > 2 or next_location[1] < 7:
-            #     # GAME_BOARD.set_el(4, 5, Popo)
-            #     print "Hello"
+    def update(self, dt):
 
-            # if next_location[0] > 2 or next_location[1] < 7:
-            #     GAME_BOARD.set_el(4, 5, Popo)
-            #     print "Hello"
+        next_x = self.x + self.direction
 
-    # def update(self, dt):
+        if next_x < 0 or next_x >= self.board.width:
+            self.direction *= -1
+            next_x = self.x
 
-    #     next_x = self.x + self.direction
-
-    #     if next_x < 0 or next_x >= self.board.width:
-    #         self.direction *= -1
-    #         next_x = self.x
-
-    #     self.board.del_el(self.x, self.y)
-    #     self.board.set_el(next_x, self.y, self)
+        self.board.del_el(self.x, self.y)
+        self.board.set_el(next_x, self.y, self)
 
 
 class Sealwhale(GameElement):
@@ -205,11 +198,6 @@ def initialize():  # this is where we put the instance attributes aka regular at
     GAME_BOARD.register(player)
     GAME_BOARD.set_el(0, 9, player)
     print player
-
-    popo = Popo()
-    GAME_BOARD.register(popo)
-    GAME_BOARD.set_el(4, 5, popo)
- 
 
     sealwhale = Sealwhale()
     GAME_BOARD.register(sealwhale)
