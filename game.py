@@ -56,7 +56,7 @@ class Character(GameElement):
         #     self.board.erase_msg()
 
         # draw message on screen indicating direction
-        self.board.draw_msg("[%s] moves %s" % (self.IMAGE, direction))
+        self.board.draw_msg("%s moves %s" % (self.IMAGE, direction))
 
         
 
@@ -73,76 +73,54 @@ class Character(GameElement):
                 self.board.draw_msg("You fucked up! Go back to the beginning.")
                 self.board.del_el(self.x, self.y)
                 self.board.set_el(0, 9, self)
-
-            # if Popo.VISIBLE == False and next_location[0] > 2 or next_location[1] < 7:
-            #     # GAME_BOARD.set_el(4, 5, Popo)
-            #     print "Hello"
             
-            # if next_location[0] > 2 or next_location[1] < 7:
-            #     GAME_BOARD.set_el(4, 5, Popo)
-            #     print "Hello"
             #checking if something in next tile, if so, draw_msg, if not, move player into next position
             else:
-                if next_location:
-                    next_x = next_location[0]
-                    next_y = next_location[1]
+                next_x = next_location[0]
+                next_y = next_location[1]
+            
+                existing_el = self.board.get_el(next_x, next_y) 
+
+                if existing_el:
+                    existing_el.interact(self)
                 
-                    existing_el = self.board.get_el(next_x, next_y) 
-
-                    if existing_el:
-                        existing_el.interact(self)
-                    
-                    if existing_el and existing_el.SOLID and not Rock:
-                        self.board.draw_msg("There's something in my way!")
-                    elif existing_el is None or not existing_el.SOLID:
-                        self.board.del_el(self.x, self.y)
-                        self.board.set_el(next_x, next_y, self)
-
-
-
-class Gem(GameElement):
-    IMAGE = "BlueGem"
-    SOLID = False
-
-    def interact(self, player):
-        player.inventory.append(self)
-        GAME_BOARD.draw_msg("You just acquired a gem! You have %d items" % (len(player.inventory)))
-
-class Greengem(Gem):
-    IMAGE  = "GreenGem"
-
-    def interact(self, player):
-        player.inventory.append(self)
-        GAME_BOARD.draw_msg("You just acquired a green, organic, local certified gem! You have %d items" % (len(player.inventory)))
-
-class Iphone(Gem):
-    IMAGE = "Iphone"
-
-    def interact(self, player):
-        player.inventory.append(self)
-        print "inventory on iphone bump: %s" % player.inventory
-        GAME_BOARD.draw_msg("You just stole a gold iPhone 6 Plus! Oooo, it looks so nice and delicate. This is worth a lot in the clink.")
+                if existing_el and existing_el.SOLID and not Rock:
+                    self.board.draw_msg("There's something in my way!")
+                elif existing_el is None or not existing_el.SOLID:
+                    self.board.del_el(self.x, self.y)
+                    self.board.set_el(next_x, next_y, self)
 
 class Popo(GameElement):
     IMAGE = "Popo"
     # VISIBLE = False
 
-    direction = 1
+    # direction = 1
 
-    # def interact(self, player):
-    #     if player is 
+    def interact(self, player):
+        # Popo.VISIBLE == False and 
+        if player.next_location[0] > 2 or player.next_location[1] < 7:
+            GAME_BOARD.set_el(5, 4, popo)
+            print "Hello"
 
 
-    def update(self, dt):
+            # if Popo.VISIBLE == False and next_location[0] > 2 or next_location[1] < 7:
+            #     # GAME_BOARD.set_el(4, 5, Popo)
+            #     print "Hello"
 
-        next_x = self.x + self.direction
+            # if next_location[0] > 2 or next_location[1] < 7:
+            #     GAME_BOARD.set_el(4, 5, Popo)
+            #     print "Hello"
 
-        if next_x < 0 or next_x >= self.board.width:
-            self.direction *= -1
-            next_x = self.x
+    # def update(self, dt):
 
-        self.board.del_el(self.x, self.y)
-        self.board.set_el(next_x, self.y, self)
+    #     next_x = self.x + self.direction
+
+    #     if next_x < 0 or next_x >= self.board.width:
+    #         self.direction *= -1
+    #         next_x = self.x
+
+    #     self.board.del_el(self.x, self.y)
+    #     self.board.set_el(next_x, self.y, self)
 
 
 class Sealwhale(GameElement):
@@ -151,8 +129,50 @@ class Sealwhale(GameElement):
 class Alcatraz(GameElement):
     IMAGE = "Alcatraz"
     SOLID = True
-        
 
+class Cage(GameElement):
+    IMAGE = "Cage Happy"
+    SOLID = True
+
+# Abstract Class Item (Our first abstract WOOO WOOO)
+
+class Item(GameElement):
+    SOLID = False
+
+    def interact(self, player, message):
+        player.inventory.append(self)
+        GAME_BOARD.draw_msg("%s. You have %d items" % (message, len(player.inventory)))
+
+class Iphone(Item):
+    IMAGE = "Iphone"
+    message = "You just stole a gold iPhone 6 Plus! Oooo, it looks so nice and delicate. This is worth a lot in the clink."
+    
+
+    def interact(self, player):
+        return super(Iphone, self).interact(player, self.message)
+
+
+
+    # def interact(self, player):
+    #     player.inventory.append(self)
+    #     print "inventory on iphone bump: %s" % player.inventory
+    #     GAME_BOARD.draw_msg("You just stole a gold iPhone 6 Plus! Oooo, it looks so nice and delicate. This is worth a lot in the clink.")
+
+class Weed(Item):
+    IMAGE = "Weed"
+
+    def interact(self, player):
+        player.inventory.append(self)
+        print "inventory on weed bump: %s" % player.inventory
+        GAME_BOARD.draw_msg("You just got some medicinal weed from your doctor!! This will help your buddy in jail with his 'glaucoma'.")
+
+class Blade(Item):
+    IMAGE = "Blade"
+
+    def interact(self, player):
+        player.inventory.append(self)
+        print "inventory on blade bump: %s" % player.inventory
+        GAME_BOARD.draw_msg("You just bought a super sharp blade for your buddy. This will keep him safe, and on top of the prison hiearchy.")
 
 ####   End class definitions    ####
 
@@ -202,14 +222,24 @@ def initialize():  # this is where we put the instance attributes aka regular at
     alcatraz = Alcatraz()
     GAME_BOARD.register(alcatraz)
     GAME_BOARD.set_el(9, 0, alcatraz)
-    
-    # gem = Gem()
-    # GAME_BOARD.register(gem)
-    # GAME_BOARD.set_el(3, 1, gem)
 
-    # greengem = Greengem()
-    # GAME_BOARD.register(greengem)
-    # GAME_BOARD.set_el(3, 3, greengem)
+    cage = Cage()
+    GAME_BOARD.register(cage)
+    GAME_BOARD.set_el(9, 1, cage)
+
+    weed = Weed()
+    GAME_BOARD.register(weed)
+    GAME_BOARD.set_el(2, 7, weed)
+
+    blade = Blade()
+    GAME_BOARD.register(blade)
+    GAME_BOARD.set_el(0, 7, blade)
+    
+    # item = Item()
+    # GAME_BOARD.register(item)
+    # GAME_BOARD.set_el(3, 1, item)
+
+
 
     GAME_BOARD.draw_msg("Welcome to Escape to Alcatraz. Begin by gathering contraband to take to your buddy in jail.")
 
@@ -217,5 +247,4 @@ def initialize():  # this is where we put the instance attributes aka regular at
 
 
     # pass
-
 

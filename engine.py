@@ -49,7 +49,11 @@ def setup_images():
             "Popo": "Popo.png",
             "Sealwhale": "Sealwhale.png",
             "Iphone": "Iphone.png",
-            "Alcatraz": "Alcatraz.png"
+            "Alcatraz": "alcatraz.png",
+            "Cage Happy": "cage.png",
+            "Cage Sad": "Cage_sad.png",
+            "Weed": "Weed.png",
+            "Blade": "Blade.png"
             }
 
     for k,v in filenames.items():

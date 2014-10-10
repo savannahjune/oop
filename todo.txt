@@ -10,11 +10,14 @@ Game Interaction List:
 -Make sealwhale influence player
 -Make Nic Cage greet player 
     -nicely if they have all stuff
-    -angry if missing items
+    -angry if missing items (check hints file for switch image example)
 -To Win:
     -player must land/hit alcatraz with all items (SOLID = False)
     -if don't have all items (SOLID = True), can't get on Alcatraz
 -Make rock interaction more sophisticated, iPhone 'breaks' or gets lost, pick up again
+
+To Fix:
+-rename gem class to make it item class
 
 
 DONE:
