@@ -25,9 +25,11 @@ class Rock(GameElement):            # always has these CLASS attributes in the b
 class Character(GameElement):
     IMAGE = "Girl"
 
+
     def __init__(self):
         GameElement.__init__(self)
         self.inventory = []
+        self.popoexists = False
 
     def next_pos(self, direction):
         if direction == "up":
@@ -76,10 +78,11 @@ class Character(GameElement):
                 next_x = next_location[0]
                 next_y = next_location[1]
                 
-                if next_x > 2 or next_y <7:
+                if (next_x > 2 or next_y < 7) and self.popoexists == False:
                     popo = Popo()
                     GAME_BOARD.register(popo)
                     GAME_BOARD.set_el(4, 5, popo)
+                    self.popoexists = True
 
                 # use coordinates to get object if it's in next location            
                 existing_el = self.board.get_el(next_x, next_y) 
@@ -95,11 +98,13 @@ class Character(GameElement):
                     self.board.del_el(self.x, self.y)
                     self.board.set_el(next_x, next_y, self)
 
-        # def interact(self, )
+        def interact(self, GameElement):
+            GameElement.playerinteract(self)
+            
 
 class Popo(GameElement):
     IMAGE = "Popo"
-    # VISIBLE = False
+    VISIBLE = False
 
     direction = 1
 
@@ -114,6 +119,9 @@ class Popo(GameElement):
 
         self.board.del_el(self.x, self.y)
         self.board.set_el(next_x, self.y, self)
+
+    def playerinteract(self, player):
+        pass
 
 
 class Sealwhale(GameElement):
