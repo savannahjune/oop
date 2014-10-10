@@ -1,6 +1,4 @@
 To make:
--nic cage
--drugs
 -(new image for player)
 
 To create: 
@@ -15,7 +13,7 @@ Game Interaction List:
     -player must land/hit alcatraz with all items (SOLID = False)
     -if don't have all items (SOLID = True), can't get on Alcatraz
 -Make rock interaction more sophisticated, iPhone 'breaks' or gets lost, pick up again
-
+-Make it so when popo hits player something happens (make a new keyboardhandler type thing for popo)
 To Fix:
 -rename gem class to make it item class
 
@@ -30,3 +28,6 @@ sealwhale
 rocks
 iphone
 alcatraz
+drugs
+blade
+nic cage

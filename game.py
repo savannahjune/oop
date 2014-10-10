@@ -29,6 +29,7 @@ class Character(GameElement):
     def __init__(self):
         GameElement.__init__(self)
         self.inventory = []
+        self.ridinglist = []
         self.popoexists = False
 
     def next_pos(self, direction):
@@ -41,6 +42,11 @@ class Character(GameElement):
         elif direction == "right":
             return (self.x+1, self.y)
         return None
+
+    def riding(self, GameElement):
+        if self.x == 3 and self.y == 2:
+            print "HIT THE WHALE"
+
 
     def keyboard_handler(self, symbol, modifier):
 
@@ -82,6 +88,7 @@ class Character(GameElement):
                     popo = Popo()
                     GAME_BOARD.register(popo)
                     GAME_BOARD.set_el(4, 5, popo)
+                    self.board.draw_msg(("Watch out %s, there is a policeman. Guard your belongings.") % self.IMAGE)
                     self.popoexists = True
 
                 # use coordinates to get object if it's in next location            
@@ -98,8 +105,10 @@ class Character(GameElement):
                     self.board.del_el(self.x, self.y)
                     self.board.set_el(next_x, next_y, self)
 
-        def interact(self, GameElement):
-            GameElement.playerinteract(self)
+
+
+    # def interact(self, GameElement):
+    #     GameElement.playerinteract(self)
             
 
 class Popo(GameElement):
@@ -120,12 +129,20 @@ class Popo(GameElement):
         self.board.del_el(self.x, self.y)
         self.board.set_el(next_x, self.y, self)
 
-    def playerinteract(self, player):
-        pass
+    # def playerinteract(self, player):
+    #     print "You have met the Popo"
 
 
 class Sealwhale(GameElement):
     IMAGE = "Sealwhale"
+
+
+    def interact(self, player):
+        player.ridinglist.append(self)
+        GAME_BOARD.draw_msg("%s! You got a free ride on free willy!" % (player.IMAGE))
+        player.riding(player)
+
+
 
 class Alcatraz(GameElement):
     IMAGE = "Alcatraz"
