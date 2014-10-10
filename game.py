@@ -98,6 +98,15 @@ class Greengem(Gem):
         player.inventory.append(self)
         GAME_BOARD.draw_msg("You just acquired a green, organic, local certified gem! You have %d items" % (len(player.inventory)))
 
+class Popo(GameElement):
+    IMAGE = "Popo"
+
+    # def interact(self, player):
+class Sealwhale(GameElement):
+    IMAGE = 
+        
+
+
 ####   End class definitions    ####
 
 def initialize():  # this is where we put the instance attributes aka regular attributes
@@ -129,6 +138,10 @@ def initialize():  # this is where we put the instance attributes aka regular at
     GAME_BOARD.set_el(0, 9, player)
     print player
 
+    popo = Popo()
+    GAME_BOARD.register(popo)
+    GAME_BOARD.set_el(4, 5, popo)
+
     # gem = Gem()
     # GAME_BOARD.register(gem)
     # GAME_BOARD.set_el(3, 1, gem)
@@ -137,7 +150,7 @@ def initialize():  # this is where we put the instance attributes aka regular at
     # GAME_BOARD.register(greengem)
     # GAME_BOARD.set_el(3, 3, greengem)
 
-    GAME_BOARD.draw_msg("This game is wicked awesome.")
+    GAME_BOARD.draw_msg("Welcome to Escape to Alcatraz. Begin by gathering contraband to take to your buddy in jail.")
 
 
 
