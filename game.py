@@ -17,6 +17,11 @@ class Rock(GameElement):            # always has these CLASS attributes in the b
     IMAGE = "Rock"
     SOLID = True
 
+    def interact(self, player):
+        print 'getting inventory on rock bump %s' % (player.inventory)
+        if len(player.inventory) != 0:
+            GAME_BOARD.draw_msg("You hit the rock!!! You bent your precious iPhone (6 Plus, Gold).")
+
 class Character(GameElement):
     IMAGE = "Girl"
 
@@ -73,9 +78,9 @@ class Character(GameElement):
             #     # GAME_BOARD.set_el(4, 5, Popo)
             #     print "Hello"
             
-            if next_location[0] > 2 or next_location[1] < 7:
-                GAME_BOARD.set_el(4, 5, Popo)
-                print "Hello"
+            # if next_location[0] > 2 or next_location[1] < 7:
+            #     GAME_BOARD.set_el(4, 5, Popo)
+            #     print "Hello"
             #checking if something in next tile, if so, draw_msg, if not, move player into next position
             else:
                 if next_location:
@@ -87,7 +92,7 @@ class Character(GameElement):
                     if existing_el:
                         existing_el.interact(self)
                     
-                    if existing_el and existing_el.SOLID:
+                    if existing_el and existing_el.SOLID and not Rock:
                         self.board.draw_msg("There's something in my way!")
                     elif existing_el is None or not existing_el.SOLID:
                         self.board.del_el(self.x, self.y)
@@ -114,12 +119,13 @@ class Iphone(Gem):
     IMAGE = "Iphone"
 
     def interact(self, player):
-        # player.inventory.append(self)
-        GAME_BOARD.draw_msg("You just a gold iPhone 6 Plus! Oooo it looks so nice and delicate. This is worth a lot in the clink.")
+        player.inventory.append(self)
+        print "inventory on iphone bump: %s" % player.inventory
+        GAME_BOARD.draw_msg("You just stole a gold iPhone 6 Plus! Oooo, it looks so nice and delicate. This is worth a lot in the clink.")
 
 class Popo(GameElement):
     IMAGE = "Popo"
-    VISIBLE = False
+    # VISIBLE = False
 
     direction = 1
 
@@ -138,9 +144,13 @@ class Popo(GameElement):
         self.board.del_el(self.x, self.y)
         self.board.set_el(next_x, self.y, self)
 
-    # def interact(self, player):
+
 class Sealwhale(GameElement):
     IMAGE = "Sealwhale"
+
+class Alcatraz(GameElement):
+    IMAGE = "Alcatraz"
+    SOLID = True
         
 
 
@@ -150,10 +160,10 @@ def initialize():  # this is where we put the instance attributes aka regular at
     """Put game initialization code here"""
     rock_positions = [
             (2, 1),
-            # (1, 2),
-            # (3, 2),
-            # (2, 3),
-            # (1, 1),
+            (1, 2),
+            (3, 2),
+            (2, 3),
+            (1, 1),
         ]
 
     rocks = []
@@ -164,7 +174,8 @@ def initialize():  # this is where we put the instance attributes aka regular at
         GAME_BOARD.set_el(pos[0], pos[1], rock)
         rocks.append(rock)
 
-    rocks[-1].SOLID = False
+    # rocks[-1].SOLID = True
+    # rocks[0].SOLID = True
 
     for rock in rocks:
         print rock
@@ -177,6 +188,7 @@ def initialize():  # this is where we put the instance attributes aka regular at
 
     popo = Popo()
     GAME_BOARD.register(popo)
+    GAME_BOARD.set_el(4, 5, popo)
  
 
     sealwhale = Sealwhale()
@@ -186,6 +198,10 @@ def initialize():  # this is where we put the instance attributes aka regular at
     iphone = Iphone()
     GAME_BOARD.register(iphone)
     GAME_BOARD.set_el(2, 9, iphone)
+
+    alcatraz = Alcatraz()
+    GAME_BOARD.register(alcatraz)
+    GAME_BOARD.set_el(9, 0, alcatraz)
     
     # gem = Gem()
     # GAME_BOARD.register(gem)
