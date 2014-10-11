@@ -4,21 +4,20 @@ To make:
 To create: 
 
 Game Interaction List:
--Make popo influence player
+-Make player influence popo
+	-Make it so when popo hits player something happens (make a new keyboardhandler type thing for popo)
 -Make sealwhale influence player
+-Make rock interaction more sophisticated, iPhone 'breaks' or gets lost, pick up again
 -Make Nic Cage greet player 
     -nicely if they have all stuff
     -angry if missing items (check hints file for switch image example)
 -To Win:
     -player must land/hit alcatraz with all items (SOLID = False)
     -if don't have all items (SOLID = True), can't get on Alcatraz
--Make rock interaction more sophisticated, iPhone 'breaks' or gets lost, pick up again
--Make it so when popo hits player something happens (make a new keyboardhandler type thing for popo)
-To Fix:
--rename gem class to make it item class
 
 
 DONE:
+-rename gem class to make it item class
 
 Game elements:
 

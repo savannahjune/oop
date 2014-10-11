@@ -49,7 +49,7 @@ def setup_images():
             "Popo": "Popo.png",
             "Sealwhale": "Sealwhale.png",
             "Iphone": "Iphone.png",
-            "Alcatraz": "alcatraz.png",
+            "Alcatraz": "Alcatraz.png",
             "Cage Happy": "cage.png",
             "Cage Sad": "Cage_sad.png",
             "Weed": "Weed.png",
